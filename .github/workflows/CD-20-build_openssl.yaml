@@ -6,7 +6,6 @@ on:
     workflows: [CD 10 OpenSSL Release Check]
     types:
       - completed
-  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty

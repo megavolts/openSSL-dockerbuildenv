@@ -1,4 +1,4 @@
-# 1 - Daily check of upstream release for Unbound and OpenSSL
+# 1 - Daily check of OpenSSL upstream release
 name: CD 10 OpenSSL Release Check
 
 on:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  unbound-update:
+  openssl_release_check:
     runs-on: ubuntu-latest
               
     steps:
@@ -23,10 +23,10 @@ jobs:
                 echo OPENSSL_VERSION="$(curl -s https://api.github.com/repos/openssl/openssl/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT 
             fi
 
-            echo OPENSSL_BUILDENV_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/buildvars | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)" >> $GITHUB_OUTPUT  
+            echo OPENSSL_BUILDENV_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)" >> $GITHUB_OUTPUT  
             # TO BE REPLACE BY AFTER FIRST RELEAE
             # echo OPENSSL_BUILDENV_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
-            echo BUILDENV_REVISION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/buildvars | awk '/^BUILDENV_VERSION=/' | cut -d- -f2)" >> $GITHUB_OUTPUT
+            echo BUILDENV_REVISION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/.current_release | awk '/^BUILDENV_VERSION=/' | cut -d- -f2)" >> $GITHUB_OUTPUT
 
       - name: Is update available
         id: IS_UPDATE_AVAILABLE
@@ -68,7 +68,7 @@ jobs:
           BUILD_REVISION=${{ steps.IS_UPDATE_AVAILABLE.outputs.BUILD_REVISION }}
           BUILD_DATETIME=$(date  --iso-8601=minute --utc | cut -d+ -f1)
           BUILDENV_VERSION=$OPENSSL_VERSION-$BUILD_REVISION
-          echo UNBOUND_VERSION=$UNBOUND_VERSION >> buildvars
+          echo OPENSSL_VERSION=$OPENSSL_VERSION >> buildvars
           echo BUILDENV_VERSION=$BUILDENV_VERSION >> buildvars
           echo BUILD_DATETIME=$BUILD_DATETIME >> buildvars
           git add buildvars

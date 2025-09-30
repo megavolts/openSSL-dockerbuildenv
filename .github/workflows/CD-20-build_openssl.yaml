@@ -18,7 +18,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
-      : ${{ steps.IMPORT_BUILDVARS.outputs.DOCKER_IMAGE_VERSION }}
       BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_VERSION }}
       OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
       BUILD_DATETIME: ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATETIME }}

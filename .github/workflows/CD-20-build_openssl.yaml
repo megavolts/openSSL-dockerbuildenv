@@ -1,5 +1,5 @@
 # 2 - Build OpenSSL docker build environement
-name: CD 20 Build OpenSSL Docker Build Environement 
+name: CD 20 Build OpenSSL
 
 on:   
   workflow_run:

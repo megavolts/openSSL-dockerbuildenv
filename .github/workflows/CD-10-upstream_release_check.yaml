@@ -68,7 +68,7 @@ jobs:
           BUILD_REVISION=${{ steps.IS_UPDATE_AVAILABLE.outputs.BUILD_REVISION }}
           BUILD_DATETIME=$(date  --iso-8601=minute --utc | cut -d+ -f1)
           BUILDENV_VERSION=$OPENSSL_VERSION-$BUILD_REVISION
-          echo OPENSSL_VERSION=$OPENSSL_VERSION >> buildvars
+          echo OPENSSL_VERSION=$OPENSSL_VERSION > buildvars
           echo BUILDENV_VERSION=$BUILDENV_VERSION >> buildvars
           echo BUILD_DATETIME=$BUILD_DATETIME >> buildvars
           git add buildvars

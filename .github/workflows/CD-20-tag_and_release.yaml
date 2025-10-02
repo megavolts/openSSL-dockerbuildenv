@@ -73,11 +73,13 @@ jobs:
 
           # # new release
           RELEASE_TAG=v$OPENSSL_BUILDENV_VERSION
-          RELEASE_NOTE="\x23\x23 $(date '+%Y-%m-%d') <megavolts'bot>\n\x23\x23 What's Changed?"
+          NOTES="\x23\x23 $(date '+%Y-%m-%d') <megavolts'bot>\n\x23\x23 What's Changed?"
 
-          RELEASE_NOTE+="\n\x2:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION)"
-          RELEASE_NOTE+="\n\n\x2A\x2AOpenSSL changelog\x2A\x2A: https://github.com/openssl/openssl/releases/tag/openssl-$OPENSSL_VERSION" ;
+          NOTES+="\n\x2:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION)"
+          NOTES+="\n\n\x2A\x2AOpenSSL changelog\x2A\x2A: https://github.com/openssl/openssl/releases/tag/openssl-$OPENSSL_VERSION" ;
           
+          RELEASE_NOTE=$(echo -e $NOTES)
+
           git tag -a "$RELEASE_TAG" -m "$RELEASE_TAG"
           git push -u origin "$RELEASE_TAG"
           

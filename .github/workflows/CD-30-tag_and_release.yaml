@@ -1,12 +1,11 @@
-# 2 - Tag and Release
-name: CD 20 Tag and Release
+# 3 - Tag and Release
+name: CD 30 Tag and Release
    
 on:       
   workflow_run:
-    workflows: [CD 10 Release Check]
+    workflows: [CD 20 Build OpenSSL Docker Image]
     types:
       - completed
-  workflow_dispatch:
 
 jobs:
   buildvars:
@@ -39,7 +38,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           persist-credentials: false
-         
+
       - name: Import GPG key 
         id: IMPORT_GPG
         uses: crazy-max/ghaction-import-gpg@v6
@@ -52,7 +51,7 @@ jobs:
           git_push_gpgsign: false
           trust_level: 5
           
-      - name: Push tag and upload release 
+      - name: Push tag and upload release to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: ${{ steps.IMPORT_GPG.outputs.name }}

@@ -1,0 +1,74 @@
+# 2 - build Unbound
+name: CD 20 Build OpenSSL Docker Image
+   
+on:   
+  workflow_run:
+    workflows: [CD 10 OpenSSL Release Check]
+    types:
+      - completed
+
+jobs:
+  buildvars:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    outputs:
+      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_BUILDENV_VERSION }}
+      OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
+      BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
+        
+    steps:             
+    - name: Checkout source
+      uses: actions/checkout@v5
+      with:
+        persist-credentials: false
+    
+    - name: Import build variables from buildvars file
+      id: IMPORT_BUILDVARS
+      run: |
+        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
+        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_OUTPUT
+        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
+      
+
+  build: 
+    runs-on: ubuntu-latest
+    needs: buildvars
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Dockerhub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        env:
+          DOCKERHUB_SLUG: "megavolts/unbound"
+        with:
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          builder: ${{ steps.buildx.outputs.name }}
+          build-args: |
+            OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
+            BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
+            OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
+          file: ./openssl/Dockerfile   
+          push: ${{ github.event_name != 'pull_request' }}
+          sbom: ${{ github.event_name != 'pull_request' }}
+          provenance: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.DOCKERHUB_SLUG }}:${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}   
+            ${{ env.DOCKERHUB_SLUG }}:latest
+    

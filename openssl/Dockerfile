@@ -1,8 +1,9 @@
 ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
     BUILD_NAME="OpenSSL-dockerbuildenv" \
     BUILD_DESCRIPTION="Alpine Linux based OpenSSL build environment for megavolts/unbound and follow up project. " \
-    BUILD_REVISION \
-    OPENSSL_VERSION
+    BUILDENV_BUILD_DATE \
+    OPENSSL_VERSION \
+    OPENSSL_BUILDENV_VERSION
 
 # Define shell
 # Stage 1. Build Unbound with latest OpenSSL
@@ -15,6 +16,7 @@ SHELL ["/bin/sh", "-o", "pipefail", "-c"]
 ARG OPENSSL_VERSION \
     BUILD_REPOSITORY \
     BUILD_DESCRIPTION \
+    OPENSSL_BUILDENV_VERSION \
     BUILD_NAME
 
 # Define environment variables
@@ -81,7 +83,7 @@ RUN apk --no-cache --update add \
         /var/log/* 
 
 LABEL maintainer="megavolts <marc.oggier@megavolts.ch>" \
-      org.opencontainers.image.version=$OPENSSL_VERSION-$BUILD_REVISION \
+      org.opencontainers.image.version=$OPENSSL_BUILDENV_VERSION \
     #   org.opencontainers.image.title=$BUILD_NAME \
     #   org.opencontainers.image.description=$BUILD_DESCRIPTION \
       org.opencontainers.image.url="https://github.com/"${BUILD_REPOSITORY} \

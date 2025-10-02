@@ -3,7 +3,9 @@ name: 21 Manually Build OpenSSL
 
 on:   
   workflow_dispatch:
-    
+  push:
+    tags:        
+      - 'v*.*.*'  
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -16,9 +18,9 @@ jobs:
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
-      BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_VERSION }}
+      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_BUILDENV_VERSION }}
       OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
-      BUILD_DATETIME: ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATETIME }}
+      BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
     
     steps:             
     - name: Checkout source
@@ -29,8 +31,8 @@ jobs:
     - name: Import build variables from buildvars file
       id: IMPORT_BUILDVARS
       run: |
-        cat buildvars | grep BUILDENV_REVISION >> $GITHUB_ENV
-        cat buildvars | grep BUILD_DATETIME >> $GITHUB_ENV
+        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_ENV
+        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_ENV
         cat buildvars | grep OPENSSL_VERSION >> $GITHUB_ENV
     
   build: 
@@ -94,8 +96,8 @@ jobs:
           file: ./openssl/Dockerfile
           build-args: |
             OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
-            BUILD_DATETIME=${{ needs.buildvars.outputs.BUILD_DATETIME }}
-            BUILDENV_REVISION=${{ needs.buildvars.outputs.BUILDENV_REVISION }}
+            BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
+            OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
           # tags: |
           #   ${{ env.DOCKERHUB_SLUG }}:${{ needs.buildvars.outputs.BUILDENV_VERSION }}   
           #   ${{ env.DOCKERHUB_SLUG }}:latest

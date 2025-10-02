@@ -76,7 +76,10 @@ jobs:
           git add buildvars
           git commit buildvars -m "Updated buildvars"
           git push origin main
-  
+          
+          echo BUILDENV_VERSION=$BUILDENV_VERSION >> $GITHUB_OUTPUT
+
+
       - name: Push tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -12,7 +12,10 @@ FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
 
 # Define argument
-ARG OPENSSL_VERSION
+ARG OPENSSL_VERSION \
+    BUILD_REPOSITORY \
+    BUILD_DESCRIPTION \
+    BUILD_NAME
 
 # Define environment variables
 ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
@@ -37,8 +40,8 @@ RUN apk --no-cache --update add \
     && curl -sSL ${OPENSSL_DOWNLOAD_URL} -o openssl-${OPENSSL_VERSION}.tar.gz \
     && curl -sSL ${OPENSSL_DOWNLOAD_URL}.sha256 -o openssl-${OPENSSL_VERSION}.tar.gz.sha256 \
     && curl -sSL ${OPENSSL_DOWNLOAD_URL}.asc -o openssl-${OPENSSL_VERSION}.tar.gz.asc \
-    && echo "`cat openssl-${OPENSSL_VERSION}.tar.gz.sha256`" | sha256sum -c - \
-    && GNUPGHOME="$(mktemp -d)" \
+    && echo "`cat openssl-${OPENSSL_VERSION}.tar.gz.sha256`" | sha256sum -c -
+RUN GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
     && gpg --no-tty --keyserver hkps://keys.openpgp.org --recv-keys ${OPENSSL_PGP} \
     && gpg --batch --verify openssl-${OPENSSL_VERSION}.tar.gz.asc openssl-${OPENSSL_VERSION}.tar.gz \
@@ -79,8 +82,8 @@ RUN cd openssl-${OPENSSL_VERSION} \
 
 LABEL maintainer="megavolts <marc.oggier@megavolts.ch>" \
       org.opencontainers.image.version=$OPENSSL_VERSION-$BUILD_REVISION \
-      org.opencontainers.image.title=$BUILD_NAME \
-      org.opencontainers.image.description=$BUILD_DESCRIPTION \
+    #   org.opencontainers.image.title=$BUILD_NAME \
+    #   org.opencontainers.image.description=$BUILD_DESCRIPTION \
       org.opencontainers.image.url="https://github.com/"${BUILD_REPOSITORY} \
       org.opencontainers.image.vendor="Marc Oggier" \
       org.opencontainers.image.licenses="MIT" \

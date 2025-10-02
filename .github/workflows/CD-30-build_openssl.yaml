@@ -1,9 +1,9 @@
 # 2 - Build OpenSSL docker build environement
-name: CD 20 Build OpenSSL
+name: CD 30 Build OpenSSL Docker Image
 
 on:   
   workflow_run:
-    workflows: [CD 10 OpenSSL Release Check]
+    workflows: [CD 20 OpenSSL Release Check]
     types:
       - completed
 
@@ -28,6 +28,7 @@ jobs:
       with:
         persist-credentials: false
     
+        
     - name: Import build variables from buildvars file
       id: IMPORT_BUILDVARS
       run: |

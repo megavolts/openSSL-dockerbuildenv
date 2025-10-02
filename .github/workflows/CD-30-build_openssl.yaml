@@ -2,7 +2,6 @@
 name: CD 30 Build OpenSSL Docker Image
 
 on:   
-  workflow_run:
   push:
     # Pattern matched against refs/tags
     tags:        

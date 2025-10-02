@@ -3,6 +3,8 @@ name: CD 30 Build OpenSSL Docker Image
 
 on:   
   push:
+    branches:
+      - 'main'
     # Pattern matched against refs/tags
     tags:        
       - 'v*'  

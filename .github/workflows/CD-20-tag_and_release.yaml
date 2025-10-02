@@ -60,7 +60,7 @@ jobs:
           GIT_COMMITTER_NAME: ${{ steps.IMPORT_GPG.outputs.name }}
           GIT_COMMITTER_EMAIL: ${{ steps.IMPORT_GPG.outputs.email }}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.BOT_GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
           # new build
           BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
@@ -74,9 +74,9 @@ jobs:
 
           # # # new release
           RELEASE_TAG=v$OPENSSL_BUILDENV_VERSION
-          NOTES="\x23\x23 $(date '+%Y-%m-%d') <megavolts'bot>\n\x23\x23 What's Changed?"
+          NOTES="\x23\x23 $(date '+%Y-%m-%d') <megavolts> \n\x23\x23 What's Changed?"
 
-          NOTES+="\n\x2:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION)"
+          NOTES+="\n:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION"
           NOTES+="\n\n\x2A\x2AOpenSSL changelog\x2A\x2A: https://github.com/openssl/openssl/releases/tag/openssl-$OPENSSL_VERSION" ;
           
           RELEASE_NOTE=$(echo -e $NOTES)

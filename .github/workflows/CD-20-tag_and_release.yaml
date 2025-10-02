@@ -61,7 +61,7 @@ jobs:
           GIT_COMMITTER_EMAIL: ${{ steps.IMPORT_GPG.outputs.email }}
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-
+          git pull
           # new build
           BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
           OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
@@ -90,4 +90,3 @@ jobs:
           gh release create "$RELEASE_TAG" -t "$OPENSSL_BUILDENV_VERSION" -n "$RELEASE_NOTE" --latest
           
           exit 0
-          

@@ -9,7 +9,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
 FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 
 # Set shell
-SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
+# SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
 
 # Define argument
 ARG OPENSSL_VERSION \

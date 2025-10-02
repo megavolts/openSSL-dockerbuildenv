@@ -2,7 +2,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
     BUILD_NAME="OpenSSL-dockerbuildenv" \
     BUILD_DESCRIPTION="Alpine Linux based OpenSSL build environment for megavolts/unbound and follow up project. " \
     BUILD_REVISION \
-    OPENSSL_VERSION \
+    OPENSSL_VERSION
 
 # Define shell
 # Stage 1. Build Unbound with latest OpenSSL

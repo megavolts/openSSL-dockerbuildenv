@@ -93,9 +93,9 @@ jobs:
           cache-to: type=gha,mode=max
           file: ./openssl/Dockerfile
           build-args: |
-            ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
-            ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATETIME }}
-            ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_REVISION }}
+            OPENSSL_VERSION=3.6.0
+            BUILD_DATETIME=20251001
+            BUILDENV_REVISION=1
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish

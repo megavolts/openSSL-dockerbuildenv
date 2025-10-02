@@ -6,7 +6,8 @@ on:
     workflows: [CD 10 Release Check]
     types:
       - completed
-
+  workflow_dispatch:
+    
 jobs:
   buildvars:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}

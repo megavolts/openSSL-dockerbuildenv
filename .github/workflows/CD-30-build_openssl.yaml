@@ -1,4 +1,4 @@
-# 2 - Build OpenSSL docker build environement
+# 3 - Build OpenSSL docker build environement
 name: CD 30 Build OpenSSL Docker Image
 
 on:   
@@ -6,6 +6,7 @@ on:
     # Pattern matched against refs/tags
     tags:        
       - 'v*.*.*'  
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty

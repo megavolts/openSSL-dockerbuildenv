@@ -6,7 +6,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
 
 # Define shell
 # Stage 1. Build Unbound with latest OpenSSL
-FROM alpine:latest AS buildenv
+FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 
 # Set shell
 SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
@@ -18,12 +18,11 @@ ARG OPENSSL_VERSION
 ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
     OPENSSL_PGP="BA5473A2B0587B07FB27CF2D216094DFD0CB81EF" \
     OPENSSL_DOWNLOAD_URL="https://github.com/openssl/openssl/releases/download/openssl-"${OPENSSL_VERSION}"/openssl-"${OPENSSL_VERSION}".tar.gz"
-
     
 WORKDIR /tmp/src
 
 # Build OpenSSl from sources with checksum
-RUN apk --no-cache --update add \
+RUN apk --no-cache --update add \d
         ca-certificates \
         curl \
         file \
@@ -46,8 +45,8 @@ RUN apk --no-cache --update add \
     && pkill -9 gpg-agent \
     && pkill -9 dirmngr \
     && tar xzf openssl-${OPENSSL_VERSION}.tar.gz \
-    && rm openssl-${OPENSSL_VERSION}.tar.gz \
-    && cd openssl-${OPENSSL_VERSION} \
+    && rm openssl-${OPENSSL_VERSION}.tar.gz
+RUN cd openssl-${OPENSSL_VERSION} \
     && ./Configure \
         no-weak-ssl-ciphers \
         no-apps \

@@ -97,9 +97,6 @@ jobs:
             OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
             BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
             OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
-          # tags: |
-          #   ${{ env.DOCKERHUB_SLUG }}:${{ needs.buildvars.outputs.BUILDENV_VERSION }}   
-          #   ${{ env.DOCKERHUB_SLUG }}:latest
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker

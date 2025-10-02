@@ -26,8 +26,8 @@ ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
 WORKDIR /tmp/src
 
 # Build OpenSSl from sources with checksum
-RUN echo $OPENSSL_VERSION \
-    && apk --no-cache --update add \
+RUN echo $OPENSSL_VERSION
+RUN apk --no-cache --update add \
         ca-certificates \
         curl \
         file \

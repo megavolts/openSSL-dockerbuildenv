@@ -14,7 +14,7 @@ jobs:
     outputs:
       BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
       OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
-      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_VERSION }}
+      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_BUILDENV_VERSION }}
     
     steps:             
     - name: Checkout source

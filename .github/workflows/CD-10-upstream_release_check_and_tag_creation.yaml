@@ -54,7 +54,7 @@ jobs:
           git_push_gpgsign: false
           trust_level: 5
 
-      - name: Push files to repository
+      - name: Update Buildvars
         id: UPDATE_BUILDVARS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,12 +75,10 @@ jobs:
           echo BUILD_REVISION=$BUILD_REVISION >> buildvars
           git add buildvars
           git commit buildvars -m "Updated buildvars"
-          git push origin main
-          
           echo BUILDENV_VERSION=$BUILDENV_VERSION >> $GITHUB_OUTPUT
+          #          git push origin main
 
-
-      - name: Push tag
+      - name: Update tag and push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: ${{ steps.IMPORT_GPG.outputs.name }}

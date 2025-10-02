@@ -1,0 +1,89 @@
+# 2 - Tag and Release
+name: CD 20 Tag and Release
+   
+on:       
+  workflow_run:
+    workflows: [CD 10 Release Check]
+    types:
+      - completed
+
+jobs:
+  buildvars:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    outputs:
+      BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
+      OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
+      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_VERSION }}
+    
+    steps:             
+    - name: Checkout source
+      uses: actions/checkout@v5
+      with:
+        persist-credentials: false
+        
+    - name: Import build variables from buildvars file
+      id: IMPORT_BUILDVARS
+      run: |
+        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_OUTPUT
+        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
+        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
+
+  tag_and_release:
+    runs-on: ubuntu-latest
+    needs: buildvars
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:             
+      - name: Checkout source
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+         
+      - name: Import GPG key 
+        id: IMPORT_GPG
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.BOT_GPG_PWD }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+          git_push_gpgsign: false
+          trust_level: 5
+          
+      - name: Push tag and upload release 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_AUTHOR_NAME: ${{ steps.IMPORT_GPG.outputs.name }}
+          GIT_AUTHOR_EMAIL: ${{ steps.IMPORT_GPG.outputs.email }}
+          GIT_COMMITTER_NAME: ${{ steps.IMPORT_GPG.outputs.name }}
+          GIT_COMMITTER_EMAIL: ${{ steps.IMPORT_GPG.outputs.email }}
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
+          # new build
+          BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
+          OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
+          OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
+          
+          # previous build
+          OPENSSL_CURRENT_VERSION=$(cat ./.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)
+          # TODO: need to be replaced by previous build:
+          # echo OPENSSL_CURRENT_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
+
+          # # new release
+          RELEASE_TAG=v$OPENSSL_BUILDENV_VERSION
+          RELEASE_NOTE="\x23\x23 $(date '+%Y-%m-%d') <megavolts'bot>\n\x23\x23 What's Changed?"
+
+          RELEASE_NOTE+="\n\x2:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION)"
+          RELEASE_NOTE+="\n\n\x2A\x2AOpenSSL changelog\x2A\x2A: https://github.com/openssl/openssl/releases/tag/openssl-$OPENSSL_VERSION" ;
+          
+          git tag -a "$RELEASE_TAG" -m "$RELEASE_TAG"
+          git push -u origin "$RELEASE_TAG"
+          
+          git fetch --all --tags
+          git checkout -b "$OPENSSL_BUILDENV_VERSION" "$RELEASE_TAG"
+          git push --set-upstream origin "$OPENSSL_BUILDENV_VERSION"
+          gh release create "$RELEASE_TAG" -t "$OPENSSL_BUILDENV_VERSION" -n "$RELEASE_NOTE" --latest
+          
+          exit 0

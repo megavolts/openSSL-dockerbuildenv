@@ -32,7 +32,7 @@ jobs:
         cat buildvars | grep BUILD_DATETIME >> $GITHUB_OUTPUT
         cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
     
-  build_openssl: 
+  build: 
     runs-on: ubuntu-latest
     needs: buildvars
     permissions:
@@ -70,7 +70,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
+          # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
@@ -83,6 +83,7 @@ jobs:
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        file: openssl/Dockerfile
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}

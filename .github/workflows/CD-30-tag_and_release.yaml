@@ -33,7 +33,7 @@ jobs:
   tag_and_release:
     runs-on: ubuntu-latest
     needs: buildvars
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:             
       - name: Checkout source
         uses: actions/checkout@v5

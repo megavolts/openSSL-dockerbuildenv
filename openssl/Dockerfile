@@ -10,7 +10,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
 FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 
 # Set shell
-#SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
+SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
 
 # Define argument
 ARG OPENSSL_VERSION \
@@ -26,7 +26,8 @@ ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
 WORKDIR /tmp/src
 
 # Build OpenSSl from sources with checksum
-RUN apk --no-cache --update add \
+RUN echo $OPENSSL_VERSION \
+    && apk --no-cache --update add \
         ca-certificates \
         curl \
         file \
@@ -39,7 +40,6 @@ RUN apk --no-cache --update add \
         linux-headers \
         apk-tools \
 # -L rather -sSL
-    && echo $OPENSSL_VERSION \
     && curl -L ${OPENSSL_DOWNLOAD_URL} -o openssl-${OPENSSL_VERSION}.tar.gz \
     && curl -L ${OPENSSL_DOWNLOAD_URL}.sha256 -o openssl-${OPENSSL_VERSION}.tar.gz.sha256 \
     && curl -L ${OPENSSL_DOWNLOAD_URL}.asc -o openssl-${OPENSSL_VERSION}.tar.gz.asc \

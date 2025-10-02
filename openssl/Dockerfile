@@ -21,7 +21,6 @@ ARG OPENSSL_VERSION \
 ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
     OPENSSL_PGP="BA5473A2B0587B07FB27CF2D216094DFD0CB81EF" \
     OPENSSL_DOWNLOAD_URL="https://github.com/openssl/openssl/releases/download/openssl-"${OPENSSL_VERSION}"/openssl-"${OPENSSL_VERSION}".tar.gz"
-    
 WORKDIR /tmp/src
 
 # Build OpenSSl from sources with checksum
@@ -37,11 +36,12 @@ RUN apk --no-cache --update add \
         libidn2-dev \
         linux-headers \
         apk-tools \
-    && curl -sSL ${OPENSSL_DOWNLOAD_URL} -o openssl-${OPENSSL_VERSION}.tar.gz \
-    && curl -sSL ${OPENSSL_DOWNLOAD_URL}.sha256 -o openssl-${OPENSSL_VERSION}.tar.gz.sha256 \
-    && curl -sSL ${OPENSSL_DOWNLOAD_URL}.asc -o openssl-${OPENSSL_VERSION}.tar.gz.asc \
-    && echo "`cat openssl-${OPENSSL_VERSION}.tar.gz.sha256`" | sha256sum -c -
-RUN GNUPGHOME="$(mktemp -d)" \
+# -L rather -sSL
+       && curl -L ${OPENSSL_DOWNLOAD_URL} -o openssl-${OPENSSL_VERSION}.tar.gz \
+    && curl -L ${OPENSSL_DOWNLOAD_URL}.sha256 -o openssl-${OPENSSL_VERSION}.tar.gz.sha256 \
+    && curl -L ${OPENSSL_DOWNLOAD_URL}.asc -o openssl-${OPENSSL_VERSION}.tar.gz.asc \
+    && echo "`cat openssl-${OPENSSL_VERSION}.tar.gz.sha256`" | sha256sum -c - \
+    && GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
     && gpg --no-tty --keyserver hkps://keys.openpgp.org --recv-keys ${OPENSSL_PGP} \
     && gpg --batch --verify openssl-${OPENSSL_VERSION}.tar.gz.asc openssl-${OPENSSL_VERSION}.tar.gz \

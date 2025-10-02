@@ -79,7 +79,7 @@ RUN apk --no-cache --update add \
         /var/log/* 
 
 LABEL maintainer="megavolts <marc.oggier@megavolts.ch>"
-      org.opencontainers.image.version=${OpenSSL}-${BUILD_REVISION} \
+      org.opencontainers.image.version=${OPENSSL_VERSION}-${BUILD_REVISION} \
       org.opencontainers.image.title=$BUILD_NAME \
       org.opencontainers.image.description=$BUILD_DESCRIPTION \
       org.opencontainers.image.url="https://github.com/"${BUILD_REPOSITORY} \

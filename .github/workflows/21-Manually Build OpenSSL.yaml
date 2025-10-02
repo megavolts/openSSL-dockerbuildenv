@@ -9,6 +9,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  BUILD_ARGS: ""
 
 jobs:
   buildvars:
@@ -28,9 +29,9 @@ jobs:
     - name: Import build variables from buildvars file
       id: IMPORT_BUILDVARS
       run: |
-        cat buildvars | grep BUILDENV_VERSION >> $GITHUB_OUTPUT
-        cat buildvars | grep BUILD_DATETIME >> $GITHUB_OUTPUT
-        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
+        cat buildvars | grep BUILDENV_REVISION >> $GITHUB_ENV
+        cat buildvars | grep BUILD_DATETIME >> $GITHUB_ENV
+        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_ENV
     
   build: 
     runs-on: ubuntu-latest
@@ -91,7 +92,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           file: ./openssl/Dockerfile
-          
+          build-args: |
+            ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
+            ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATETIME }}
+            ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_REVISION }}
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish

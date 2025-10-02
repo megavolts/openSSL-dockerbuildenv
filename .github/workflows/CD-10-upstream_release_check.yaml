@@ -70,6 +70,7 @@ jobs:
           BUILDENV_VERSION=$OPENSSL_VERSION-$BUILD_REVISION
           echo OPENSSL_VERSION=$OPENSSL_VERSION > buildvars
           echo BUILDENV_VERSION=$BUILDENV_VERSION >> buildvars
+          echo BUILDENV_REVISION=$BUILD_REVISION >> buildvars
           echo BUILD_DATETIME=$BUILD_DATETIME >> buildvars
           git add buildvars
           git commit buildvars -m "Updated buildvars"

@@ -3,7 +3,7 @@ name: CD 20 Tag Upon Upstream Release
    
 on:       
   workflow_run:
-    workflows: [CD 10 OpenSSL Release Check]
+    workflows: [CD 20 OpenSSL Release Check]
     types:
       - completed
 

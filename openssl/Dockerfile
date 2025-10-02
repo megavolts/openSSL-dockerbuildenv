@@ -9,7 +9,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
 FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 
 # Set shell
-# SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
+SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
 
 # Define argument
 ARG OPENSSL_VERSION \
@@ -48,8 +48,8 @@ RUN apk --no-cache --update add \
     && pkill -9 gpg-agent \
     && pkill -9 dirmngr \
     && tar xzf openssl-${OPENSSL_VERSION}.tar.gz \
-    && rm openssl-${OPENSSL_VERSION}.tar.gz
-RUN cd openssl-${OPENSSL_VERSION} \
+    && rm openssl-${OPENSSL_VERSION}.tar.gz \
+    && cd openssl-${OPENSSL_VERSION} \
     && ./Configure \
         no-weak-ssl-ciphers \
         no-apps \

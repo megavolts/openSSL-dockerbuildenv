@@ -11,7 +11,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  BUILD_ARGS: ""
 
 jobs:
   buildvars:
@@ -31,9 +30,9 @@ jobs:
     - name: Import build variables from buildvars file
       id: IMPORT_BUILDVARS
       run: |
-        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_ENV
-        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_ENV
-        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_ENV
+        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
+        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_OUTPUT
+        cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
     
   build: 
     runs-on: ubuntu-latest

@@ -10,7 +10,7 @@ on:
 
 jobs:
   buildvars:
-#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
       BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
@@ -33,7 +33,7 @@ jobs:
   tag_and_release:
     runs-on: ubuntu-latest
     needs: buildvars
-#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:             
       - name: Checkout source
         uses: actions/checkout@v5

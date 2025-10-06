@@ -61,11 +61,11 @@ jobs:
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}  
           
-          BUILDENV_BUILD_DATE=$(date  --iso-8601)
+          BUILD_DATE=$(date  --iso-8601)
           OPENSSL_VERSION=${{ steps.GET_VERSIONS.outputs.OPENSSL_VERSION }} 
           OPENSSL_BUILDENV_VERSION=$OPENSSL_VERSION-0
 
-          echo BUILDENV_BUILD_DATE=$BUILDENV_BUILD_DATE > buildvars
+          echo BUILD_DATE=$BUILD_DATE > buildvars
           echo OPENSSL_VERSION=$OPENSSL_VERSION >> buildvars
           echo OPENSSL_BUILDENV_VERSION=$OPENSSL_BUILDENV_VERSION >> buildvars
 

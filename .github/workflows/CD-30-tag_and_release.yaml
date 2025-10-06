@@ -13,7 +13,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
-      BUILDENV_BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILDENV_BUILD_DATE }}
+      BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATE }}
       OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
       OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_BUILDENV_VERSION }}
     
@@ -26,7 +26,7 @@ jobs:
     - name: Import build variables from buildvars file
       id: IMPORT_BUILDVARS
       run: |
-        cat buildvars | grep BUILDENV_BUILD_DATE >> $GITHUB_OUTPUT
+        cat buildvars | grep BUILD_DATE >> $GITHUB_OUTPUT
         cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
         cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
 
@@ -63,13 +63,11 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.BOT_GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
           # new build
-          BUILDENV_BUILD_DATE=${{ needs.buildvars.outputs.BUILDENV_BUILD_DATE }}
+          BUILD_DATE=${{ needs.buildvars.outputs.BUILD_DATE }}
           OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
           OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
           
           # previous build
-          # OPENSSL_CURRENT_VERSION=$(cat ./.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)
-          # TODO: need to be replaced by previous build:
           echo OPENSSL_CURRENT_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
 
           # # # new release

@@ -11,7 +11,7 @@ This is an alpine based OpenSSL build environment used by [`megavolts/unbound-do
 ## Changes
 Upstream release of OpenSSL triggers new releases of the OpenSSL build environment.
 
-You can see the changes in the [`Releases`]([https://github.com/megavolts/openssl-dockerbuildenv/RELEASES.md](https://github.com/megavolts/openSSL-dockerbuildenv/releases)) section.
+You can see the changes in the [Releases](https://github.com/megavolts/openSSL-dockerbuildenv/releases) section.
 
 ## Issues
 

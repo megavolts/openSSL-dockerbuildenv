@@ -4,6 +4,20 @@ OpenSSL Build Environment for docker
 [Current OpenSSL release]
 [OpenSSL buildenv]
 
+[![OpenSSL buildenv](https://img.shields.io/github/v/release/megavolts/openssl-dockerbuildenv?include_prereleases&label=megavolts/openssl-docerbuildenv%20release&style=for-the-badge)](https://github.com/megavolts/openssl-dockerbuildenv/releases)
+
+
+[![GitHub version](https://img.shields.io/github/v/release/madnuttah/unbound-docker?include_prereleases&label=madnuttah/unbound%20release&style=flat-square)](https://github.com/madnuttah/unbound-docker/releases)
+
+![CD Unbound and OpenSSL Release Check](https://img.shields.io/github/actions/workflow/status/megavolts/unbound-docker/CD-10-upstream_release_check.yaml?branch=main&style=for-the-badge&label=CD%20Upstream%20Release%20Check)
+
+![CD Build Docker Image](https://img.shields.io/github/actions/workflow/status/megavolts/unbound-docker/CD-20-build_unbound.yaml?branch=main&style=for-the-badge&label=Build%20Docker%20Image)
+
+![CD Release Tag](https://img.shields.io/github/actions/workflow/status/megavolts/unbound-docker/CD-30-tag_and_release.yaml?branch=main&style=for-the-badge&label=Release%20latest%20tag)
+
+
+
+
 This is an alpine based OpenSSL build environment used by [`megavolts/unbound-docker`](https://github.com/megavolts/unbound-docker/), [`megavolts/adguard_unbdound-docker`](https://github.com/megavolts/adguard_unbound-docker/) and MegaVolts' addons `unbound` and `adguard_unbound` for Home Assistant [`megavolts/hassio-addons`](https://github.com.com/megavolts/hassio-addons)
 
 ## Changes

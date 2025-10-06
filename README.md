@@ -1,9 +1,10 @@
 OpenSSL Build Environment for docker
 ====================================
 
-[![Current OpenSSL release](https://img.shields.io/github/v/tag/openssl/openssl?label=Current%20OpenSSL%20release&style=for-the-badge)](https://github.com/openssl/openssl/tags) 
-[![OpenSSL Build Environmenet](https://img.shields.io/github/v/release/megavolts/openssl-dockerbuildenv?include_prereleases&label=megavolts/openssl-docerbuildenv%20release&style=for-the-badge)](https://github.com/megavolts/openssl-dockerbuildenv/releases)
-![Build OpenSSL Docker Environment](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-10-upstream_release_check.yaml?branch=main&style=for-the-badge&label=Build%20OpenSSL%20Docker%20Build%20Environment)
+[![Current OpenSSL release  ](https://img.shields.io/github/v/tag/openssl/openssl?label=Current%20OpenSSL%20release&style=for-the-badge)](https://github.com/openssl/openssl/tags) 
+
+[![OpenSSL Build Environment](https://img.shields.io/github/v/release/megavolts/openssl-dockerbuildenv?include_prereleases&label=megavolts/openssl-docerbuildenv%20release&style=for-the-badge)](https://github.com/megavolts/openssl-dockerbuildenv/releases)
+[Build Status](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-10-upstream_release_check.yaml?branch=main&style=for-the-badge&label=Build%20OpenSSL%20Docker%20Build%20Environment)
 
 This is an alpine based OpenSSL build environment used by [`megavolts/unbound-docker`](https://github.com/megavolts/unbound-docker/), [`megavolts/adguard_unbdound-docker`](https://github.com/megavolts/adguard_unbound-docker/) and MegaVolts' addons `unbound` and `adguard_unbound` for Home Assistant [`megavolts/hassio-addons`](https://github.com.com/megavolts/hassio-addons)
 

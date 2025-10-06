@@ -26,14 +26,14 @@ contributions.
 
 ## Acknowledgments
 
-Thanks to the many Docker Images who got me inspired. Credits for upstream project goes to:
+Thanks to the many Docker Images who got me inspired, especially [ϺΛDИVTTΛH](https://github.com/madnuttah) and [MatthewVance](https://github.com/MatthewVance).
 
+Credits for upstream project goes to:
 - [Alpine Linux](https://www.alpinelinux.org/)
 - [Docker](https://www.docker.com/)
 - [OpenSSL](https://www.openssl.org/)
 
 ## Licenses
-
 ### License
 
 Unless otherwise specified, all code is released under the MIT License (MIT).

@@ -1,8 +1,10 @@
+
+# Daily check at 17:00 all week
 name: CD 90 Security Scan   
              
 on:
   schedule:
-    - cron: '45 * * * *'
+    - cron: '45 17 * * *'
   workflow_dispatch:
   workflow_run:
      workflows: [CD 30 Tag and Release]

@@ -23,9 +23,9 @@ jobs:
                 echo OPENSSL_VERSION="$(curl -s https://api.github.com/repos/openssl/openssl/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT 
             fi
 
-            # echo OPENSSL_BUILDENV_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)" >> $GITHUB_OUTPUT  
+            echo OPENSSL_BUILDENV_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/refs/heads/main/.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)" >> $GITHUB_OUTPUT  
             # TO BE REPLACE BY AFTER FIRST RELEASE
-            echo OPENSSL_BUILDENV_VERSION="$(curl -s https://api.github.com/repos/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
+            # echo OPENSSL_BUILDENV_VERSION="$(curl -s https://api.github.com/repos/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
 
       - name: Is update available
         id: IS_UPDATE_AVAILABLE

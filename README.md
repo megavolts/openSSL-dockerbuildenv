@@ -8,13 +8,14 @@ OpenSSL Build Environment for docker
 
 This is an alpine based OpenSSL build environment used by [`megavolts/unbound-docker`](https://github.com/megavolts/unbound-docker/), [`megavolts/adguard_unbdound-docker`](https://github.com/megavolts/adguard_unbound-docker/) and MegaVolts' addons `unbound` and `adguard_unbound` for Home Assistant [`megavolts/hassio-addons`](https://github.com.com/megavolts/hassio-addons)
 
+This docker build environment only contains the OpenSSL libraries to build and run Unbound.
+
 ## Changes
 Upstream release of OpenSSL triggers new releases of the OpenSSL build environment.
 
 You can see the changes in the [Releases](https://github.com/megavolts/openSSL-dockerbuildenv/releases) section.
 
 ## Issues
-
 If you have any problems with or questions about this image, please contact me
 through a [GitHub issue](https://github.com/megavolts/openssl-dockerbuildenv/issues).
 

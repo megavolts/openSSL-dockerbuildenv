@@ -30,7 +30,7 @@ jobs:
         cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
         cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
 
-  tag_and_release:
+  openssl-tag_and_release:
     runs-on: ubuntu-latest
     needs: buildvars
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -68,9 +68,9 @@ jobs:
           OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
           
           # previous build
-          OPENSSL_CURRENT_VERSION=$(cat ./.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)
+          # OPENSSL_CURRENT_VERSION=$(cat ./.current_release | awk '/^OPENSSL_VERSION=/' | cut -d= -f2)
           # TODO: need to be replaced by previous build:
-          # echo OPENSSL_CURRENT_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
+          echo OPENSSL_CURRENT_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
 
           # # # new release
           RELEASE_TAG=v$OPENSSL_BUILDENV_VERSION

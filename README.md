@@ -11,7 +11,7 @@ OpenSSL Build Environment for docker
   <summary>Build status</summary><br>
   <!-- https://img.shields.io/badges/git-hub-actions-workflow-status -->
 
-![CD Unbound Release Check](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-10-check_upstream_releases.yaml?branch=main&style=for-the-badge&label=CD%20Upstream%20Release%20Check)
+![CD Unbound Release Check](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-10-upstream_release_check.yaml?branch=main&style=for-the-badge&label=CD%20Upstream%20Release%20Check)
 
 ![CD Build Docker Image](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-20-build_openssl.yaml?branch=main&style=for-the-badge&label=CD%20Build%20Docker%20Image)
 

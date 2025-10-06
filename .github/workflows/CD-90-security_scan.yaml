@@ -1,13 +1,13 @@
 name: CD 90 Security Scan   
              
 on:
-#   schedule:
-#     - cron: '0 */24 * * *'
-#   workflow_run:
-#     workflows: [CD 30 Tag and Release]
-#     types:
-#       - completed
+  schedule:
+    - cron: '45 * * * *'
   workflow_dispatch:
+  workflow_run:
+     workflows: [CD 30 Tag and Release]
+     types:
+       - completed
 
 
 jobs:

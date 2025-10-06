@@ -2,8 +2,9 @@
 name: CD 10 OpenSSL Release Check
 
 on:
+  # run at midnight
   schedule:
-    - cron: '0 17 * * mon-fri'
+    - cron: '0 0 * * mon-fri'
   workflow_dispatch:
 
 jobs:

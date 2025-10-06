@@ -84,8 +84,8 @@ RUN apk --no-cache --update add \
 
 LABEL maintainer="megavolts <marc.oggier@megavolts.ch>" \
       org.opencontainers.image.version=$OPENSSL_BUILDENV_VERSION \
-    #   org.opencontainers.image.title=$BUILD_NAME \
-    #   org.opencontainers.image.description=$BUILD_DESCRIPTION \
+      org.opencontainers.image.title=$BUILD_NAME \
+      org.opencontainers.image.description=$BUILD_DESCRIPTION \
       org.opencontainers.image.url="https://github.com/"${BUILD_REPOSITORY} \
       org.opencontainers.image.vendor="Marc Oggier" \
       org.opencontainers.image.licenses="MIT" \

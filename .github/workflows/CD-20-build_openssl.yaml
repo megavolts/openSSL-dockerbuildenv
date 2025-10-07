@@ -58,7 +58,7 @@ jobs:
         env:
           DOCKERHUB_SLUG: "megavolts/openssl-dockerbuildenv"
         with:
-          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          platforms: linux/amd64,linuxarm/v6,linux/armv7,linux/aarch64
           builder: ${{ steps.buildx.outputs.name }}
           build-args: |
             BUILD_DATE=${{ needs.buildvars.outputs.BUILD_DATE }}

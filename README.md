@@ -5,6 +5,7 @@ OpenSSL Build Environment for docker
 
 [![OpenSSL Build Environment](https://img.shields.io/github/v/release/megavolts/openssl-dockerbuildenv?include_prereleases&label=megavolts/openssl-dockerbuildenv%20release&style=for-the-badge)](https://github.com/megavolts/openssl-dockerbuildenv/releases)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-30-tag_and_release.yaml?branch=main&style=for-the-badge&label=Build%20Status)
+![Security Scan Status](https://img.shields.io/github/actions/workflow/status/megavolts/openssl-dockerbuildenv/CD-90-security_scan.yaml?branch=main&style=for-the-badge&label=Security%20Scan)
 
 <details> 
     

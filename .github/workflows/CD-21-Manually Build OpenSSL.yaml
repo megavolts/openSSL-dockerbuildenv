@@ -3,9 +3,7 @@ name: 21 Manually Build OpenSSL
 
 on:   
   workflow_dispatch:
-  push:
-    tags:        
-      - 'v*.*.*'  
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io

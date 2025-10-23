@@ -14,7 +14,7 @@ jobs:
     outputs:
       BUILD_DATE: ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_DATE }}
       OPENSSL_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_VERSION }}
-      OPENSSL_BUILDENV_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.OPENSSL_BUILDENV_VERSION }}
+      BUILD_IMAGE_VERSION: ${{ steps.IMPORT_BUILDVARS.outputs.BUILD_IMAGE_VERSION }}
     
     steps:             
     - name: Checkout source
@@ -27,7 +27,7 @@ jobs:
       run: |
         cat buildvars | grep BUILD_DATE >> $GITHUB_OUTPUT
         cat buildvars | grep OPENSSL_VERSION >> $GITHUB_OUTPUT
-        cat buildvars | grep OPENSSL_BUILDENV_VERSION >> $GITHUB_OUTPUT
+        cat buildvars | grep BUILD_IMAGE_VERSION >> $GITHUB_OUTPUT
 
   openssl-tag_and_release:
     runs-on: ubuntu-latest
@@ -64,13 +64,13 @@ jobs:
           # new build
           BUILD_DATE=${{ needs.buildvars.outputs.BUILD_DATE }}
           OPENSSL_VERSION=${{ needs.buildvars.outputs.OPENSSL_VERSION }}
-          OPENSSL_BUILDENV_VERSION=${{ needs.buildvars.outputs.OPENSSL_BUILDENV_VERSION }}
+          BUILD_IMAGE_VERSION=${{ needs.buildvars.outputs.BUILD_IMAGE_VERSION }}
           
           # previous build
           echo OPENSSL_CURRENT_VERSION="$(curl -s https://raw.githubusercontent.com/megavolts/openssl-dockerbuildenv/releases | jq '.[0] | .name' -r | grep -Eo '([0-9]+)(\.?[0-9]+)*' | head -1)" >> $GITHUB_OUTPUT
 
           # # # new release
-          RELEASE_TAG=v$OPENSSL_BUILDENV_VERSION
+          RELEASE_TAG=v$BUILD_IMAGE_VERSION
           NOTES="\x23\x23 $(date '+%Y-%m-%d') <megavolts> \n\x23\x23 What's Changed?"
 
           NOTES+="\n:arrow_up_small: Updated OpenSSL to $OPENSSL_VERSION"
@@ -82,8 +82,8 @@ jobs:
           git push -u origin "$RELEASE_TAG"
 
           git fetch --all --tags
-          git checkout -b "$OPENSSL_BUILDENV_VERSION" "$RELEASE_TAG"
-          git push --set-upstream origin "$OPENSSL_BUILDENV_VERSION"
-          gh release create "$RELEASE_TAG" -t "$OPENSSL_BUILDENV_VERSION" -n "$RELEASE_NOTE" --latest
+          git checkout -b "$BUILD_IMAGE_VERSION" "$RELEASE_TAG"
+          git push --set-upstream origin "$BUILD_IMAGE_VERSION"
+          gh release create "$RELEASE_TAG" -t "$BUILD_IMAGE_VERSION" -n "$RELEASE_NOTE" --latest
           
           exit 0

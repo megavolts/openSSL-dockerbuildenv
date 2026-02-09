@@ -34,7 +34,7 @@ jobs:
             echo "Update found for OpenSSL"
           else
             echo "No update found"
-            exit 1
+            exit 0
           fi 
          
       - name: Checkout source

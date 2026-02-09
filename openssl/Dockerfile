@@ -10,7 +10,7 @@ ARG BUILD_REPOSITORY="megavolts/openssl-dockerbuildenv" \
 FROM --platform=$BUILDPLATFORM  alpine:latest AS buildenv
 
 # Set shell
-SHELL ["/bin/sh", "-o", "pipefail", "-c"] 
+SHELL ["/bin/ash", "-o", "pipefail", "-c"] 
 
 # Define argument
 ARG OPENSSL_VERSION \
@@ -23,7 +23,6 @@ ARG OPENSSL_VERSION \
 ENV OPENSSL_VERSION=${OPENSSL_VERSION} \
     OPENSSL_PGP="BA5473A2B0587B07FB27CF2D216094DFD0CB81EF" \
     OPENSSL_DOWNLOAD_URL="https://github.com/openssl/openssl/releases/download/openssl-"${OPENSSL_VERSION}"/openssl-"${OPENSSL_VERSION}".tar.gz"
-WORKDIR /tmp/src
 
 # Build OpenSSl from sources with checksum
 RUN apk --no-cache --update add \
@@ -86,7 +85,7 @@ LABEL maintainer="megavolts <marc.oggier@megavolts.ch>" \
       org.opencontainers.image.version=$BUILD_IMAGE_VERSION \
       org.opencontainers.image.title=$BUILD_NAME \
       org.opencontainers.image.description=$BUILD_DESCRIPTION \
-      org.opencontainers.image.url="https://github.com/"${BUILD_REPOSITORY} \
+      org.opencontainers.image.url="https://github.com/${BUILD_REPOSITORY}" \
       org.opencontainers.image.vendor="Marc Oggier" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.source="https://github.com/"${BUILD_REPOSITORY}
+      org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}"

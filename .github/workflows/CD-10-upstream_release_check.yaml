@@ -6,7 +6,7 @@ on:
   # run at midnight
   schedule:
     - cron: '0 17 * * mon-fri'
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   openssl-update:
